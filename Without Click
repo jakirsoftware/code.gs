@@ -8,40 +8,44 @@ function listAll() {
   getFolderTree(folderId, true);
 }
 
-// =================
-// Get Folder Tree.
+// Get Folder Tree
 function getFolderTree(folderId, listAll) {
   try {
-    // Get folder by id.
+    // Get folder by id
     var parentFolder = DriveApp.getFolderById(folderId);
-
-    // Initialise the sheet.
+    
+    // Initialise the sheet
     var file, data, sheet = SpreadsheetApp.getActiveSheet();
     sheet.clear();
+    sheet.appendRow(["Files", "Id"]);
+    
     // Get files and folders
     getChildFolders(parentFolder.getName(), parentFolder, data, sheet, listAll);
   } catch (e) {
     Logger.log(e.toString());
   }
-}
-// Get the list of files and folders and their metadata in recursive mode.
+};
+
+// Get the list of files and folders and their metadata in recursive mode
 function getChildFolders(parentName, parent, data, sheet, listAll) {
   var childFolders = parent.getFolders();
-  // List folders inside the folder.
+ 
+  // List folders inside the folder
   while (childFolders.hasNext()) {
     var childFolder = childFolders.next();
-    // Logger.log("Folder Name: " + childFolder.getName());
-    data = [
-      parentName + "/" + childFolder.getName(),
+    var folderId = childFolder.getId();
+    data = [ 
       childFolder.getName(),
+      childFolder.getId(),
     ];
-
-    // List files inside the folder.
+    // Write
+    sheet.appendRow(data);
+    
+    // List files inside the folder
     var files = childFolder.getFiles();
     while (listAll & files.hasNext()) {
       var childFile = files.next();
-      // Logger.log("File Name: " + childFile.getName());
-      data = [
+      data = [ 
         childFile.getName(),
         childFile.getId(),
       ];
@@ -49,6 +53,6 @@ function getChildFolders(parentName, parent, data, sheet, listAll) {
       sheet.appendRow(data);
     }
     // Recursive call of the subfolder
-    getChildFolders(parentName + "/" + childFolder.getName(), childFolder, data, sheet, listAll);
+    getChildFolders(parentName + "/" + childFolder.getName(), childFolder, data, sheet, listAll);  
   }
-}
+};
