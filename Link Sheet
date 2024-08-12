@@ -1,0 +1,1 @@
+=IFERROR(ARRAYFORMULA(IFS(B2:B<>"","https://drive.usercontent.google.com/u/0/uc?id="&B2:B&"&export=download")),"")
