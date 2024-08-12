@@ -1,0 +1,5 @@
+=let( 
+  id, if(regexmatch(B2, "https://drive.google.com/"), regexextract(B2, "d/(.+?)/"), B2), 
+  url, if(regexmatch(id, "^http"), B2, "https://drive.usercontent.google.com/download?id=" & id & "&export=download"), 
+  hyperlink(url, image(url)) 
+)
