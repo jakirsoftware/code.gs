@@ -1,0 +1,17 @@
+function sumCells() {
+  // Get the active spreadsheet and sheet
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+
+    // Clear the value in cell A2
+  sheet.getRange("C2").clearContent();
+  
+  // Get values from cells A2 and B2
+  var valueA2 = sheet.getRange("A2").getValue();
+  var valueB2 = sheet.getRange("B2").getValue();
+  
+  // Calculate the sum
+  var sum = valueA2 + valueB2;
+  
+  // Write the result to cell C2
+  sheet.getRange("C2").setValue(sum);
+}
