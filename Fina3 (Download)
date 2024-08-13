@@ -1,0 +1,37 @@
+function listFileDownloadLinksInSheet() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var folderId = "1Fn9135YuhvTC9-zokfMN_0Vyydl45RAz"; // Replace with your folder ID
+  var fileLinks = getFileDownloadLinksInFolder(folderId);
+  
+  // Clear the existing content
+  sheet.clear();
+  
+  // Write headers
+  sheet.getRange(1, 1, 1, 2).setValues([["File Name", "Download Link"]]);
+  
+  // Write file download links to the sheet
+  sheet.getRange(2, 1, fileLinks.length, 2).setValues(fileLinks);
+}
+
+
+function getFileDownloadLinksInFolder(folderId) {
+  try {
+    var folder = DriveApp.getFolderById(folderId);
+    var files = folder.getFiles();
+    var fileLinks = [];
+    
+    while (files.hasNext()) {
+      var file = files.next();
+      var fileName = file.getName();
+      var fileId = file.getId();
+      var downloadUrl = "https://drive.google.com/uc?export=download&id=" + fileId;
+      
+      fileLinks.push([fileName, downloadUrl]);
+    }
+    
+    // Return the results as a 2D array to be used in the Google Sheet
+    return fileLinks;
+  } catch (e) {
+    return [["Error", e.message]];
+  }
+}
