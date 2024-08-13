@@ -1,3 +1,18 @@
+function runScript() {
+  var folderId = "1Fn9135YuhvTC9-zokfMN_0Vyydl45RAz"; // Replace with your folder ID
+  var sheetName = "Link"; // Replace with your specific sheet name
+  getFileDownloadLinksInFolder(folderId, sheetName);
+}
+
+
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+  ui.createMenu('Link')
+      .addItem('Download Links', 'runScript')
+      .addToUi();
+}
+
+
 function getFileDownloadLinksInFolder(folderId, sheetName) {
   try {
     var folder = DriveApp.getFolderById(folderId);
@@ -33,17 +48,4 @@ function getFileDownloadLinksInFolder(folderId, sheetName) {
   } catch (e) {
     Logger.log("Error: " + e.message);
   }
-}
-
-function onOpen() {
-  var ui = SpreadsheetApp.getUi();
-  ui.createMenu('Link')
-      .addItem('Download Links', 'runScript')
-      .addToUi();
-}
-
-function runScript() {
-  var folderId = "1Fn9135YuhvTC9-zokfMN_0Vyydl45RAz"; // Replace with your folder ID
-  var sheetName = "Link"; // Replace with your specific sheet name
-  getFileDownloadLinksInFolder(folderId, sheetName);
 }
