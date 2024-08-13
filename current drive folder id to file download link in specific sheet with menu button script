@@ -1,0 +1,49 @@
+function getFileDownloadLinksInFolder(folderId, sheetName) {
+  try {
+    var folder = DriveApp.getFolderById(folderId);
+    var files = folder.getFiles();
+    var fileLinks = [];
+    
+    while (files.hasNext()) {
+      var file = files.next();
+      var fileName = file.getName();
+      var fileId = file.getId();
+      var downloadUrl = "https://drive.google.com/uc?export=download&id=" + fileId;
+      
+      fileLinks.push([fileName, downloadUrl]);
+    }
+    
+    // Get the sheet by name
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
+    
+    if (!sheet) {
+      throw new Error("Sheet with name '" + sheetName + "' not found.");
+    }
+    
+    // Clear the existing content
+    sheet.clear();
+    
+    // Write headers
+    sheet.getRange(1, 1, 1, 2).setValues([["PDF", "DLink"]]);
+    
+    // Write file download links to the sheet
+    sheet.getRange(2, 1, fileLinks.length, 2).setValues(fileLinks);
+    
+    Logger.log("File download links successfully written to sheet: " + sheetName);
+  } catch (e) {
+    Logger.log("Error: " + e.message);
+  }
+}
+
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+  ui.createMenu('Link')
+      .addItem('Download Links', 'runScript')
+      .addToUi();
+}
+
+function runScript() {
+  var folderId = "1Fn9135YuhvTC9-zokfMN_0Vyydl45RAz"; // Replace with your folder ID
+  var sheetName = "Link"; // Replace with your specific sheet name
+  getFileDownloadLinksInFolder(folderId, sheetName);
+}
