@@ -1,0 +1,72 @@
+// Code.gs
+function doGet() {
+  return HtmlService.createHtmlOutputFromFile('login');
+}
+
+function checkCredentials(username, password) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Sheet1'); // Adjust the sheet name if necessary
+  const data = sheet.getDataRange().getValues();
+  
+  for (let i = 1; i < data.length; i++) { // Start at 1 to skip header row
+    if (data[i][0] === username && data[i][1] === password) {
+      // Determine redirect URL based on the RedirectPage field
+      const redirectPage = data[i][2];
+      const redirectUrl = `${redirectPage}`; // Replace with your base URL
+      return { success: true, redirectUrl: redirectUrl };
+    }
+  }
+  return { success: false };
+}
+
+
+----------------------------------------------------------------------------------------
+
+
+
+
+
+
+<!-- login.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+</head>
+<body>
+  <h1>Login</h1>
+  <form id="loginForm">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required><br><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br><br>
+    <input type="button" value="Login" onclick="submitForm()">
+  </form>
+  <div id="message"></div>
+
+  <script>
+    function submitForm() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      google.script.run.withSuccessHandler(handleResponse).checkCredentials(username, password);
+    }
+
+    function handleResponse(response) {
+      const messageElement = document.getElementById('message');
+      if (response.success) {
+        // Redirect to a page based on the sheet's redirect value
+        window.location.href = response.redirectUrl;
+      } else {
+        messageElement.innerText = 'Invalid username or password.';
+      }
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
