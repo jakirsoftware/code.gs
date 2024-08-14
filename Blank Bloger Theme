@@ -6,36 +6,33 @@
     <b:if cond='data:blog.isMobile'> 
       <meta content='width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0' name='viewport'/> 
     <b:else/> 
-      <meta content='width=1100' name='viewport'/> 
+      <meta content='width=300px' name='viewport'/> 
     </b:if> 
     <b:include data='blog' name='all-head-content'/> 
     <title><data:blog.pageTitle/></title>
    <b:skin><![CDATA[]]></b:skin>
    
+      <style>
+    iframe {
+      border: none;
+      width: 100%;
+      height: 600px; /* Adjust height as needed */
+    }
+  </style>
+    
+    
   </head>
-  <body>
-   
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
+  
+  
+  
  
+    
 
-<!--Start Please keep the Credits intact-->
-<div style='margin-top:300px; '> 
-</div>
 
+<body>
+  <iframe frameborder='0' src='https://script.google.com/macros/s/AKfycbzfv04nxKiHy7i52KQUBMOvKQbSWicLGKYLXRdlDZ5Zmbq5sH06wpXSR17ZSJPluvSfDw/exec'>
+  </iframe>
+</body> 
 
   <b:section class='navbar' id='navbar' maxwidgets='1' showaddelement='no'/>
-
-<!-- End Please keep the Credits intact-->
-  </body> 
 </html>
