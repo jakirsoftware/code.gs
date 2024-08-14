@@ -54,7 +54,7 @@ function checkCredentials(username, password) {
       const messageElement = document.getElementById('message');
       if (response.success) {
         // Redirect to a page based on the sheet's redirect value
-        window.location.href = response.redirectUrl;
+        window.open(response.redirectUrl, '_blank');
       } else {
         messageElement.innerText = 'Invalid username or password.';
       }
@@ -62,6 +62,7 @@ function checkCredentials(username, password) {
   </script>
 </body>
 </html>
+
 
 
 
