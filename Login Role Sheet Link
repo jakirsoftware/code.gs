@@ -19,7 +19,7 @@ function checkCredentials(username, password) {
 }
 
 
-----------------------------------------------------------------------------------------
+-------------------------------------------------------------HTML-----------------------------------
 
 
 
@@ -64,6 +64,27 @@ function checkCredentials(username, password) {
 </html>
 
 
+-------------------------------------------------------------IFrame-----------------------------------------
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JS iT</title>
+  <style>
+    iframe {
+      border: none;
+      width: 100%;
+      height: 600px; /* Adjust height as needed */
+    }
+  </style>
+</head>
+<body>
+  <h1>JS iT</h1>
+  <iframe src="https://script.google.com/macros/s/AKfycbzfv04nxKiHy7i52KQUBMOvKQbSWicLGKYLXRdlDZ5Zmbq5sH06wpXSR17ZSJPluvSfDw/exec" 
+          frameborder="0">
+  </iframe>
+</body>
+</html>
 
 
 
