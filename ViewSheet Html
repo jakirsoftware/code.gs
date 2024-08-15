@@ -1,0 +1,91 @@
+// Function to serve the HTML page
+function doGet() {
+  return HtmlService.createHtmlOutputFromFile('ViewPage')
+      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+// Function to get data from the Google Sheet
+function getSheetData() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Apps'); // Change to your sheet name
+  var range = sheet.getDataRange();
+  var values = range.getValues();
+  return values;
+}
+
+
+-----------------------------------------------------------
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 5dp; /* Apply padding to the body */
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th, td {
+        border: 1px solid #ddd;
+        padding: 5px; /* Apply padding to table cells */
+        text-align: left;
+      }
+      th {
+        background-color: #f4f4f4;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Sheet Data</h3>
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <!-- Table headers will be inserted here -->
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Table data will be inserted here -->
+      </tbody>
+    </table>
+    
+    <script>
+      // Fetch data from Google Apps Script
+      function fetchData() {
+        google.script.run.withSuccessHandler(function(data) {
+          var table = document.getElementById('dataTable');
+          
+          // Insert table headers
+          var thead = table.getElementsByTagName('thead')[0];
+          var headers = data[0];
+          var tr = document.createElement('tr');
+          headers.forEach(function(header) {
+            var th = document.createElement('th');
+            th.textContent = header;
+            tr.appendChild(th);
+          });
+          thead.appendChild(tr);
+          
+          // Insert table rows
+          var tbody = table.getElementsByTagName('tbody')[0];
+          for (var i = 1; i < data.length; i++) {
+            var row = data[i];
+            var tr = document.createElement('tr');
+            row.forEach(function(cell) {
+              var td = document.createElement('td');
+              td.textContent = cell;
+              tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+          }
+        }).getSheetData();
+      }
+
+      // Load data on page load
+      document.addEventListener('DOMContentLoaded', fetchData);
+    </script>
+  </body>
+</html>
