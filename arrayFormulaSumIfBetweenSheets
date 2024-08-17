@@ -1,0 +1,24 @@
+function arrayFormulaSumIfBetweenSheets() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet1 = ss.getSheetByName("Sheet1"); // Replace with your sheet name
+  const sheet2 = ss.getSheetByName("Sheet2"); // Replace with your lookup sheet name
+  
+  // Get data from Sheet1 and Sheet2
+  const itemsSheet1 = sheet1.getRange("A2:A").getValues().flat(); // Items in Sheet1
+  const itemsSheet2 = sheet2.getRange("A2:A").getValues(); // Items in Sheet2
+  const valuesSheet2 = sheet2.getRange("B2:B").getValues(); // Values in Sheet2
+
+  // Create a lookup object from Sheet2
+  const lookupObj = {};
+  itemsSheet2.forEach((item, index) => {
+    if (item[0]) {
+      lookupObj[item[0]] = (lookupObj[item[0]] || 0) + Number(valuesSheet2[index][0]); // Sum values if multiple matches
+    }
+  });
+
+  // Calculate the sum for each item in Sheet1
+  const result = itemsSheet1.map(item => [lookupObj[item] || 0]);
+
+  // Write the results back to Sheet1 (e.g., column B starting from row 2)
+  sheet1.getRange(2, 2, result.length, 1).setValues(result);
+}
