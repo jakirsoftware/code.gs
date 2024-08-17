@@ -1,0 +1,21 @@
+function arrayFormulaVlookup() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet1 = ss.getSheetByName("S4"); // Replace with your sheet name
+  const sheet2 = ss.getSheetByName("S3"); // Replace with your lookup sheet name
+  
+  // Get the data from Sheet1 and Sheet2
+  const names = sheet1.getRange("A2:A").getValues().flat(); // Get names from Sheet1
+  const lookupData = sheet2.getRange("A2:B").getValues(); // Get lookup data from Sheet2
+  
+  // Create an object for quick lookup
+  const lookupObj = {};
+  lookupData.forEach(row => {
+    lookupObj[row[0]] = row[1]; // Assumes column A in Sheet2 is the key, and column B is the value
+  });
+  
+  // Prepare the result array
+  const result = names.map(name => lookupObj[name] || ""); // Lookup each name in the object
+
+  // Write the results back to column C in Sheet1
+  sheet1.getRange(2, 4, result.length, 1).setValues(result.map(val => [val]));
+}
