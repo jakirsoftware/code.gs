@@ -1,21 +1,23 @@
-function arrayFormulaVlookup() {
+function arrayFormulaVlookupMultiColumn() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const sheet1 = ss.getSheetByName("S4"); // Replace with your sheet name
   const sheet2 = ss.getSheetByName("S3"); // Replace with your lookup sheet name
   
-  // Get the data from Sheet1 and Sheet2
-  const names = sheet1.getRange("A2:A").getValues().flat(); // Get names from Sheet1
-  const lookupData = sheet2.getRange("A2:B").getValues(); // Get lookup data from Sheet2
+  // Get the data from Sheet1 (names in column A)
+  const names = sheet1.getRange("A2:A").getValues().flat();
   
-  // Create an object for quick lookup
+  // Get the lookup data from Sheet2 (columns A:F)
+  const lookupData = sheet2.getRange("A2:F").getValues();
+  
+  // Create a lookup object to map names to their corresponding row of values (columns B:F)
   const lookupObj = {};
   lookupData.forEach(row => {
-    lookupObj[row[0]] = row[1]; // Assumes column A in Sheet2 is the key, and column B is the value
+    lookupObj[row[0]] = row.slice(1); // Store columns B:F in the object
   });
   
   // Prepare the result array
-  const result = names.map(name => lookupObj[name] || ""); // Lookup each name in the object
+  const result = names.map(name => lookupObj[name] || ["", "", "", "", ""]); // Return empty values if name not found
 
-  // Write the results back to column C in Sheet1
-  sheet1.getRange(2, 4, result.length, 1).setValues(result.map(val => [val]));
+  // Write the results back to columns B:F in Sheet1
+  sheet1.getRange(2, 2, result.length, 5).setValues(result);
 }
