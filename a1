@@ -1,0 +1,14 @@
+function doGet() {
+  return HtmlService.createHtmlOutputFromFile('index.html').setSandboxMode(HtmlService.SandboxMode.IFRAME);
+}
+
+function uploadData(data) {
+  const sheetId = '12e7OymWGzXrBGNWQiXDEie7wMmPQtSj9RJBRUz6X7ME'; // Replace with your Google Sheet ID
+  const sheetName = 'Sheet1'; // Replace with your sheet name
+  const ss = SpreadsheetApp.openById(sheetId);
+  const sheet = ss.getSheetByName(sheetName);
+
+  // Add the data as a new row
+  sheet.appendRow(data);
+  return 'Data uploaded successfully!';
+}
