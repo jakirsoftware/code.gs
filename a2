@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload Data</title>
+</head>
+<body>
+  <h3>Upload Data to Google Sheet</h3>
+  <form id="dataForm">
+    <label for="columnA">Name (Address):</label>
+    <input type="text" id="columnA" name="columnA" required><br><br>
+    
+    <label for="columnB">Mobile No.:</label>
+    <input type="text" id="columnB" name="columnB" required><br><br>
+    
+    <label for="columnC">Passport No.:</label>
+    <input type="text" id="columnC" name="columnC" required><br><br>
+    
+    <button type="button" onclick="submitData()">Submit</button>
+  </form>
+  <p id="status"></p>
+
+  <script>
+    function submitData() {
+      const form = document.getElementById('dataForm');
+      const data = [
+        form.columnA.value,
+        form.columnB.value,
+        form.columnC.value
+      ];
+
+      google.script.run.withSuccessHandler((message) => {
+        document.getElementById('status').innerText = message;
+        form.reset();
+      }).uploadData(data);
+    }
+  </script>
+</body>
+</html>
